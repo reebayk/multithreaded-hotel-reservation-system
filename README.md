@@ -2,7 +2,6 @@
 
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
 ![GNU](https://img.shields.io/badge/GNU-A42E2B?style=for-the-badge&logo=gnu&logoColor=white)
@@ -12,8 +11,6 @@ Thread-safe hotel reservation system built in **C** using **POSIX Threads**, dem
 ---
 
 ## 🎥 Demo
-
-> *(Embed a GIF here after you create one.)*
 
 ![Demo](screenshots/demo.gif)
 
@@ -130,6 +127,7 @@ Thread-safe hotel reservation system built in **C** using **POSIX Threads**, dem
 │   ├── stress.png
 │   ├── helgrind.png
 │   ├── tsan.png
+    ├── maju-logo.png
 │   └── throughput.png
 ├── hotel_broken.c
 ├── hotel_fixed.c
@@ -236,9 +234,9 @@ make tsan
 
 | Roll No. | Name |
 |----------|------|
-| SP24-BSCS-0081 | Ammar Aamir |
-| SP24-BSCS-0098 | Sakina Murtaza |
 | SP24-BSCS-0099 | Areeba Kalwar |
+| SP24-BSCS-0098 | Sakina Murtaza |
+| SP24-BSCS-0081 | Ammar Aamir |
 
 ---
 
