@@ -1,0 +1,40 @@
+--- Run 1 ---
+Total bookings : 100  (expected 200)
+Total revenue  : 24205
+Match          : NO — LOST UPDATES DETECTED
+--- Run 2 ---
+Total bookings : 112  (expected 200)
+Total revenue  : 27307
+Match          : NO — LOST UPDATES DETECTED
+--- Run 3 ---
+Total bookings : 120  (expected 200)
+Total revenue  : 26784
+Match          : NO — LOST UPDATES DETECTED
+--- Run 4 ---
+Total bookings : 145  (expected 200)
+Total revenue  : 33110
+Match          : NO — LOST UPDATES DETECTED
+--- Run 5 ---
+Total bookings : 151  (expected 200)
+Total revenue  : 35043
+Match          : NO — LOST UPDATES DETECTED
+--- Run 6 ---
+Total bookings : 132  (expected 200)
+Total revenue  : 31552
+Match          : NO — LOST UPDATES DETECTED
+--- Run 7 ---
+Total bookings : 100  (expected 200)
+Total revenue  : 22970
+Match          : NO — LOST UPDATES DETECTED
+--- Run 8 ---
+Total bookings : 110  (expected 200)
+Total revenue  : 23620
+Match          : NO — LOST UPDATES DETECTED
+--- Run 9 ---
+Total bookings : 98  (expected 200)
+Total revenue  : 20185
+Match          : NO — LOST UPDATES DETECTED
+--- Run 10 ---
+Total bookings : 111  (expected 200)
+Total revenue  : 25483
+Match          : NO — LOST UPDATES DETECTED

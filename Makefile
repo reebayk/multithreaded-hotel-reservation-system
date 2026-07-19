@@ -1,0 +1,81 @@
+CC      = gcc
+CFLAGS  = -Wall -Wextra
+PTHREAD = -pthread
+
+all: broken fixed stress_dbg stress_tsan
+
+broken: hotel_broken.c
+	$(CC) $(CFLAGS) -O0 $(PTHREAD) hotel_broken.c -o broken
+
+fixed: hotel_fixed.c
+	$(CC) $(CFLAGS) -O2 $(PTHREAD) hotel_fixed.c -o fixed
+
+stress_dbg: hotel_stress.c
+	$(CC) $(CFLAGS) -O2 $(PTHREAD) -g hotel_stress.c -o stress_dbg
+
+stress_tsan: hotel_stress.c
+	$(CC) $(CFLAGS) -O1 $(PTHREAD) -fsanitize=thread -g hotel_stress.c -o stress_tsan
+
+# ── Demo targets ──────────────────────────────────────────────────────
+
+demo-bug: broken
+	@echo "=== Broken version (expect lost bookings) ==="
+	@for i in 1 2 3; do ./broken 2>&1 | tail -3; echo "---"; done
+
+demo-fix: fixed
+	@echo "=== Fixed version (expect 0 violations) ==="
+	./fixed
+
+# ── Stress test (configs A-D) ─────────────────────────────────────────
+
+results:
+	mkdir -p results
+
+stress: stress_dbg results
+	@echo "rooms,clients,stay_us,gap_us,wall_s,avg_ms,max_ms,tput,violations" \
+	      > results/all.csv
+	@# Config A: 5 rooms, 10000 clients
+	$(CC) $(CFLAGS) -O2 $(PTHREAD) -g \
+	    -DNUM_ROOMS=5 -DNUM_CLIENTS=10000 -DSTAY_US=200 -DARRIVAL_GAP_US=10 \
+	    hotel_stress.c -o _stmp && ./_stmp >> results/all.csv
+	@# Config B: 50 rooms, 10000 clients
+	$(CC) $(CFLAGS) -O2 $(PTHREAD) -g \
+	    -DNUM_ROOMS=50 -DNUM_CLIENTS=10000 -DSTAY_US=200 -DARRIVAL_GAP_US=10 \
+	    hotel_stress.c -o _stmp && ./_stmp >> results/all.csv
+	@# Config C: 50 rooms, 100000 clients
+	$(CC) $(CFLAGS) -O2 $(PTHREAD) -g \
+	    -DNUM_ROOMS=50 -DNUM_CLIENTS=100000 -DSTAY_US=200 -DARRIVAL_GAP_US=10 \
+	    hotel_stress.c -o _stmp && ./_stmp >> results/all.csv
+	@# Config D: 50 rooms, 100000 clients, short stay, no gap
+	$(CC) $(CFLAGS) -O2 $(PTHREAD) -g \
+	    -DNUM_ROOMS=50 -DNUM_CLIENTS=100000 -DSTAY_US=50 -DARRIVAL_GAP_US=0 \
+	    hotel_stress.c -o _stmp && ./_stmp >> results/all.csv
+	@# Config E: 50 rooms, 100000 clients, short stay, no gap (largest)
+	$(CC) $(CFLAGS) -O2 $(PTHREAD) -g \
+	    -DNUM_ROOMS=50 -DNUM_CLIENTS=100000 -DSTAY_US=50 -DARRIVAL_GAP_US=0 \
+	    hotel_stress.c -o _stmp && ./_stmp >> results/all.csv
+	@rm -f _stmp
+	@echo "Results written to results/all.csv"
+	@cat results/all.csv
+
+tsan: stress_tsan results
+	./stress_tsan > results/tsan_stress.log 2>&1 || true
+	@echo "=== TSan output (should show 0 warnings) ==="
+	@cat results/tsan_stress.log
+
+# ── Helgrind ──────────────────────────────────────────────────────────
+
+verify: broken fixed results
+	@echo "=== Helgrind: broken ==="
+	valgrind --tool=helgrind --log-file=results/helgrind_broken.log ./broken 2>&1 || true
+	@grep "ERROR SUMMARY" results/helgrind_broken.log
+
+	@echo "=== Helgrind: fixed ==="
+	valgrind --tool=helgrind --log-file=results/helgrind_fixed.log ./fixed 2>&1 || true
+	@grep "ERROR SUMMARY" results/helgrind_fixed.log
+
+clean:
+	rm -f broken fixed stress_dbg stress_tsan _stmp
+	rm -rf results
+
+.PHONY: all demo-bug demo-fix stress tsan verify clean
