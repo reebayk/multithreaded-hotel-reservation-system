@@ -6,17 +6,16 @@
 ![Build](https://img.shields.io/badge/Build-Makefile-brightgreen)
 ![Thread Safety](https://img.shields.io/badge/Thread%20Safety-Mutex%20Protected-green)
 ![License](https://img.shields.io/badge/License-Academic-lightgrey)
-
 -->
-![C](https://img.shields.io/badge/C-00599C?logo=c&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
-![GCC](https://img.shields.io/badge/GCC-Compiler-blue?logo=gnu)
-![Make](https://img.shields.io/badge/Build-Make-brightgreen)
-![Valgrind](https://img.shields.io/badge/Valgrind-Verified-red)
-![TSan](https://img.shields.io/badge/ThreadSanitizer-Clean-success)
+
+![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
+![GNU](https://img.shields.io/badge/GNU-A42E2B?style=for-the-badge&logo=gnu&logoColor=white)
 
 Thread-safe hotel reservation system built in **C** using **POSIX Threads**, demonstrating synchronization, race condition detection, overbooking prevention, and concurrency stress testing.
-
 
 ---
 
@@ -73,23 +72,41 @@ Thread-safe hotel reservation system built in **C** using **POSIX Threads**, dem
 
 ## 🏗️ System Architecture
 
-```
-        Client Threads
-              │
-      ┌───────┼────────┐
-      │       │        │
-  Booking  Cancel  Check-in
-      │       │        │
-      └───────┼────────┘
-              │
-         db_mtx (Mutex)
-              │
-      Booking Database
-              │
-      Auditor Thread
-              │
-   Detect Overbooking &
- Verify Revenue Consistency
+```text
+                  +------------------+
+                  |  Client Threads  |
+                  +------------------+
+                            |
+         +-----------+-----------+-----------+
+         |           |           |           |      
+      Booking     Cancel      Query      Check-in
+         |           |           |           |
+         +-----------+-----------+-----------+
+                         |
+                  +--------------+
+                  | db_mtx Mutex |
+                  +--------------+
+                         |
+        +----------------+----------------+
+        |                                 |
++--------------------+         +----------------------+
+| Booking Database   |         | Shared Statistics    |
+| • Rooms            |         | • Bookings           |
+| • Categories       |         | • Revenue            |
+| • Date Ranges      |         | • Check-ins          |
+| • Active Bookings  |         | • Cancellations      |
++--------------------+         +----------------------+
+        |                                 |
+        +----------------+----------------+
+                         |
+                  +--------------+
+                  | Auditor      |
+                  | Thread       |
+                  +--------------+
+                         |
+         +---------------+----------------+
+         |                                |
+  Overbooking Detection      Revenue Verification
 ```
 
 ---
