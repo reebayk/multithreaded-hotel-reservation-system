@@ -1,13 +1,22 @@
 # 🏨 Multithreaded Hotel Reservation System
+<!--
+![Language](https://img.shields.io/badge/Language-C-blue)
+![POSIX Threads](https://img.shields.io/badge/POSIX%20Threads-pthreads-success)
+![Platform](https://img.shields.io/badge/Platform-Linux-orange)
+![Build](https://img.shields.io/badge/Build-Makefile-brightgreen)
+![Thread Safety](https://img.shields.io/badge/Thread%20Safety-Mutex%20Protected-green)
+![License](https://img.shields.io/badge/License-Academic-lightgrey)
 
-![Language](https://img.shields.io/badge/C-Programming-blue)
-![POSIX Threads](https://img.shields.io/badge/POSIX-Pthreads-success)
-![Platform](https://img.shields.io/badge/Linux-Kali-informational)
-![Build](https://img.shields.io/badge/Build-Makefile-orange)
-![Thread Safety](https://img.shields.io/badge/Thread--Safe-Yes-brightgreen)
-![License](https://img.shields.io/badge/Academic-Project-lightgrey)
+-->
+![C](https://img.shields.io/badge/C-00599C?logo=c&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
+![GCC](https://img.shields.io/badge/GCC-Compiler-blue?logo=gnu)
+![Make](https://img.shields.io/badge/Build-Make-brightgreen)
+![Valgrind](https://img.shields.io/badge/Valgrind-Verified-red)
+![TSan](https://img.shields.io/badge/ThreadSanitizer-Clean-success)
 
 Thread-safe hotel reservation system built in **C** using **POSIX Threads**, demonstrating synchronization, race condition detection, overbooking prevention, and concurrency stress testing.
+
 
 ---
 
@@ -16,10 +25,6 @@ Thread-safe hotel reservation system built in **C** using **POSIX Threads**, dem
 > *(Embed a GIF here after you create one.)*
 
 ![Demo](screenshots/demo.gif)
-
-Or include a short screen recording:
-
-https://github.com/yourusername/multithreaded-hotel-reservation-system/assets/...
 
 ---
 
@@ -62,7 +67,6 @@ https://github.com/yourusername/multithreaded-hotel-reservation-system/assets/..
 - Synchronization
 - POSIX Threads
 - Mutexes
-- Semaphores
 - Concurrent Programming
 
 ---
@@ -92,17 +96,35 @@ https://github.com/yourusername/multithreaded-hotel-reservation-system/assets/..
 
 ## 📂 Project Structure
 
-```
+```text
 .
-├── Makefile
+├── .git/
+├── results/
+│   ├── all.csv
+│   ├── broken_runs.log
+│   ├── helgrind_broken.log
+│   ├── helgrind_fixed.log
+│   ├── tsan_stress.log
+│   ├── SA.csv
+│   ├── SB.csv
+│   ├── SC.csv
+│   ├── SD.csv
+│   └── SE.csv
+├── screenshots/
+│   ├── demo.gif
+│   ├── demo-bug.png
+│   ├── demo-fix.png
+│   ├── stress.png
+│   ├── helgrind.png
+│   ├── tsan.png
+│   └── throughput.png
 ├── hotel_broken.c
 ├── hotel_fixed.c
-├── stress.c
-├── auditor.c
-├── results/
-├── screenshots/
+├── hotel_stress.c
+├── fixedbackup.c
+├── Makefile
 ├── README.md
-└── report.pdf
+└── Report.pdf
 ```
 
 ---
@@ -158,16 +180,23 @@ make tsan
 
 ---
 
-## 📊 Results
+## 📊 Performance Results
 
-| Configuration | Clients | Rooms | Audit Violations |
-|--------------|---------|-------|------------------|
-| A | 1000 | 10 | 0 |
-| B | 1000 | 100 | 0 |
-| C | 10000 | 100 | 0 |
-| D | 10000 | 100 | 0 |
-| E | 100000 | 100 | 0 |
+| Config | Rooms | Clients | Wall Time (s) | Throughput (clients/s) | Max Wait (ms) | Audit Violations |
+|:------:|------:|---------:|--------------:|-----------------------:|--------------:|-----------------:|
+| A | 10 | 1,000 | 0.47 | 376.8 | 1.159 | ✅ 0 |
+| B | 100 | 1,000 | 0.39 | **2506.5** | 0.719 | ✅ 0 |
+| C | 100 | 10,000 | 4.77 | 343.2 | 17.481 | ✅ 0 |
+| D | 100 | 10,000 | 4.89 | 323.6 | 20.655 | ✅ 0 |
+| E | 100 | 100,000 | 68.83 | 23.5 | 172.737 | ✅ 0 |
 
+### 📈 Throughput Scaling
+
+<p align="center">
+  <img src="screenshots/throughput.png" alt="Throughput Scaling Graph" width="800">
+</p>
+
+*The graph shows that throughput improves with more rooms but decreases as client load increases due to higher contention and linear conflict checking. All configurations completed with **0 audit violations**.*
 ---
 
 ## 🔍 Race Conditions Demonstrated
@@ -223,12 +252,14 @@ report.pdf
 
 ## 🎓 Course
 
-**Operating Systems**
+<p align="center">
+  <img src="screenshots/maju-logo.png" alt="Mohammad Ali Jinnah University Logo" width="90">
+</p>
 
-Semester Project
-
-Mohammad Ali Jinnah University
-
+<p align="center">
+  <strong>Mohammad Ali Jinnah University</strong><br>
+  Operating Systems Semester Project
+</p>
 ---
 
 ## ⭐ Acknowledgements
