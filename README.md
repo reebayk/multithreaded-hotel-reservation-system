@@ -1,12 +1,4 @@
 # 🏨 Multithreaded Hotel Reservation System
-<!--
-![Language](https://img.shields.io/badge/Language-C-blue)
-![POSIX Threads](https://img.shields.io/badge/POSIX%20Threads-pthreads-success)
-![Platform](https://img.shields.io/badge/Platform-Linux-orange)
-![Build](https://img.shields.io/badge/Build-Makefile-brightgreen)
-![Thread Safety](https://img.shields.io/badge/Thread%20Safety-Mutex%20Protected-green)
-![License](https://img.shields.io/badge/License-Academic-lightgrey)
--->
 
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
@@ -33,11 +25,15 @@ Thread-safe hotel reservation system built in **C** using **POSIX Threads**, dem
 |---------------|---------------|
 | ![](screenshots/demo-bug.png) | ![](screenshots/demo-fix.png) |
 
-| Stress Test | ThreadSanitizer |
+| Helgrind | ThreadSanitizer |
 |-------------|-----------------|
-| ![](screenshots/stress.png) | ![](screenshots/tsan.png) |
+| ![](screenshots/helgrind.png) | ![](screenshots/tsan.png) |
 
----
+### 📈 Stress Test Results
+
+<p align="center">
+  <img src="screenshots/stress-results.png" alt="Stress Test Results" width="95%">
+</p>
 
 ## ✨ Features
 
@@ -197,16 +193,6 @@ make tsan
 
 ---
 
-## 📊 Performance Results
-
-| Config | Rooms | Clients | Wall Time (s) | Throughput (clients/s) | Max Wait (ms) | Audit Violations |
-|:------:|------:|---------:|--------------:|-----------------------:|--------------:|-----------------:|
-| A | 10 | 1,000 | 0.47 | 376.8 | 1.159 | ✅ 0 |
-| B | 100 | 1,000 | 0.39 | **2506.5** | 0.719 | ✅ 0 |
-| C | 100 | 10,000 | 4.77 | 343.2 | 17.481 | ✅ 0 |
-| D | 100 | 10,000 | 4.89 | 323.6 | 20.655 | ✅ 0 |
-| E | 100 | 100,000 | 68.83 | 23.5 | 172.737 | ✅ 0 |
-
 ### 📈 Throughput Scaling
 
 <p align="center">
@@ -240,7 +226,6 @@ make tsan
 - POSIX Threads
 - GCC
 - Make
-- Valgrind
 - Helgrind
 - ThreadSanitizer
 - Linux (Kali)
