@@ -262,7 +262,6 @@ report.pdf
   <strong>Mohammad Ali Jinnah University</strong><br>
   Operating Systems Semester Project
 </p>
----
 
 ## ⭐ Acknowledgements
 
